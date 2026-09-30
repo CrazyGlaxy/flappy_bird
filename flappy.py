@@ -87,6 +87,29 @@ class Bird:
         return pygame.mask.from_surface(self.img)
 
 
+class Base:
+    VEL = -5
+    IMG = BASE_IMG
+
+    def __init__(self, y) -> None:
+       self.x1 = 0
+       self.x2 = self.IMG.get_width()
+       self.y = y 
+
+    def move(self):
+        self.x1 += self.VEL
+        self.x2 += self.VEL
+
+        if self.x1 <= -self.IMG.get_width():
+            self.x1 = self.x2 + self.IMG.get_width()
+        
+        if self.x2 <= -self.IMG.get_width():
+            self.x2 = self.x1 + self.IMG.get_width()
+        
+    def draw(self, win: pygame.Surface):
+        win.blit(self.IMG, (self.x1, win.get_height() - self.y))
+        win.blit(self.IMG, (self.x2, win.get_height() - self.y))
+        
 class Pipe:
     GAP = 200
     VEL = -5
@@ -124,7 +147,17 @@ class Pipe:
         bird_mask = bird.get_mask()
         top_pipe_mask = pygame.mask.from_surface(self.PIPE_TOP)
         bottom_pipe_mask = pygame.mask.from_surface(self.PIPE_BOTTOM)
-        
+
+        offset_top_pipe = (self.x - bird.x, self.top - round(bird.y))
+        offset_bottom_pipe = (self.x - bird.x, self.bottom - round(bird.y))
+
+        t_point = bird_mask.overlap(top_pipe_mask, offset_top_pipe)
+        b_point = bird_mask.overlap(bottom_pipe_mask, offset_bottom_pipe)
+
+        if t_point or b_point:
+            return True
+        else:
+            return False
         
 def draw_window(win, bird, pipes):
     win.blit(BG_IMG, (0,0))
@@ -139,6 +172,7 @@ def temp():
 
 if __name__  == '__main__':
     bird = Bird(200,200)
+    base = Base(50)
     count = 0
     pygame.init()
     screen = pygame.display.set_mode((WIN_WIDTH, WIN_HEIGHT))
@@ -164,6 +198,8 @@ if __name__  == '__main__':
         # pygame.draw(BIRD_IMGS)
         # screen.fill("purple")    
         draw_window(screen, bird, pipes)
+        base.draw(screen)
+        base.move()
         bird.move(screen)
         # pipe.draw(screen)   
         for pipe in pipes:
