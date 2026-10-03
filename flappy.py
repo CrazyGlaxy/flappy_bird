@@ -159,13 +159,13 @@ class Pipe:
         else:
             return False
         
-def draw_window(win, bird, pipes):
+def draw_window(win, bird, pipes, base):
     win.blit(BG_IMG, (0,0))
     for pipe in pipes:
         pipe.draw(win)
         
     bird.draw(win)    
-
+    base.draw(win)  
 
 def temp():
     pipe = Pipe(200)
@@ -197,8 +197,7 @@ if __name__  == '__main__':
         # fill the screen with a color to wipe away anything from last frame
         # pygame.draw(BIRD_IMGS)
         # screen.fill("purple")    
-        draw_window(screen, bird, pipes)
-        base.draw(screen)
+        draw_window(screen, bird, pipes, base)
         base.move()
         bird.move(screen)
         # pipe.draw(screen)   
@@ -212,7 +211,7 @@ if __name__  == '__main__':
             count = 0
 
        
-       
+        
 
         # RENDER YOUR GAME HERE
 
