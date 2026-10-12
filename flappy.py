@@ -159,6 +159,13 @@ class Pipe:
         else:
             return False
         
+
+    def pipe_passed(self, bird: Bird):
+        assert isinstance(bird, Bird), f"expected Bird, found {type(bird)}"
+        if pipe.x < bird.x:
+            return True
+        else: return False
+
 def draw_window(win, bird, pipes, base):
     win.blit(BG_IMG, (0,0))
     for pipe in pipes:
@@ -203,9 +210,12 @@ if __name__  == '__main__':
         # pipe.draw(screen)   
         for pipe in pipes:
             pipe.move()
+            if pipe.pipe_passed(bird):
+                pipes.append(pipe)
+
                     
         
-        if count == 50:
+        if len(pipes) == 0:
             pipe = Pipe(WIN_WIDTH)
             pipes.append(pipe)
             count = 0
