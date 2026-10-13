@@ -114,7 +114,9 @@ class Pipe:
     GAP = 200
     VEL = -5
     IMG = PIPE_IMG
-    
+    pass_flag = False
+    dead = False
+     
     def __init__(self, x) -> None:
         assert isinstance(x, (int, float)), f"Expected int for x, got {type(x)}"
         self.x = x
@@ -185,7 +187,7 @@ if __name__  == '__main__':
     screen = pygame.display.set_mode((WIN_WIDTH, WIN_HEIGHT))
     clock = pygame.time.Clock()
     running = True
-    pipes = []
+    pipes = [Pipe(WIN_WIDTH)]
 
     while running:
         count += 1 
@@ -210,17 +212,20 @@ if __name__  == '__main__':
         # pipe.draw(screen)   
         for pipe in pipes:
             pipe.move()
-            if pipe.pipe_passed(bird):
+            if pipe.pipe_passed(bird) and not pipe.pass_flag:
+                pipe.pass_flag = True
+                pipe = Pipe(WIN_WIDTH)
                 pipes.append(pipe)
 
-                    
-        
-        if len(pipes) == 0:
-            pipe = Pipe(WIN_WIDTH)
-            pipes.append(pipe)
-            count = 0
+        for pipe in pipes:
+            if pipe.x < - pipe.PIPE_TOP.get_width():
+                pipes.remove(pipes[pipes.index(pipe)])
 
-       
+
+                    
+
+                
+        
         
 
         # RENDER YOUR GAME HERE
