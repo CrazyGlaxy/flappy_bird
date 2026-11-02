@@ -13,6 +13,7 @@ BASE_IMG = pygame.transform.scale2x(pygame.image.load(os.path.join('imgs', 'base
 BG_IMG = pygame.transform.scale2x(pygame.image.load(os.path.join('imgs', 'bg.png')))
 PIPE_IMG = pygame.transform.scale2x(pygame.image.load(os.path.join('imgs', 'pipe.png')))
 WIN_HEIGHT = 800
+BASE = 50
 WIN_WIDTH = 600
 
 
@@ -31,7 +32,7 @@ class Bird:
         self.img_count = 0
         self.img = self.IMGS[0]
     def jump(self):
-        self.vel = -13
+        self.vel = -11
         self.height = self.y
         self.tick = 0
 
@@ -109,7 +110,8 @@ class Base:
     def draw(self, win: pygame.Surface):
         win.blit(self.IMG, (self.x1, win.get_height() - self.y))
         win.blit(self.IMG, (self.x2, win.get_height() - self.y))
-        
+
+            
 class Pipe:
     GAP = 200
     VEL = -5
@@ -209,8 +211,11 @@ if __name__  == '__main__':
         draw_window(screen, bird, pipes, base)
         base.move()
         bird.move(screen)
+
         # pipe.draw(screen)   
         for pipe in pipes:
+            if pipe.collide():
+                pass
             pipe.move()
             if pipe.pipe_passed(bird) and not pipe.pass_flag:
                 pipe.pass_flag = True
@@ -218,10 +223,11 @@ if __name__  == '__main__':
                 pipes.append(pipe)
 
         for pipe in pipes:
-            if pipe.x < - pipe.PIPE_TOP.get_width():
+            if pipe.x <- pipe.PIPE_TOP.get_width():
                 pipes.remove(pipes[pipes.index(pipe)])
 
-
+        if bird.y + bird.height >= WIN_HEIGHT - BASE:
+            pass
                     
 
                 
