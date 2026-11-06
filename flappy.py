@@ -215,7 +215,7 @@ if __name__  == '__main__':
 
         # pipe.draw(screen)   
         for pipe in pipes:
-            if pipe.collide():
+            if pipe.collide(bird):
                 pass
             pipe.move()
             if pipe.pipe_passed(bird) and not pipe.pass_flag:
