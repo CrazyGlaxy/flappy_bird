@@ -2,6 +2,7 @@ import random
 import pygame
 import os
 import time
+#comment
 
 BIRD_IMGS = [
     pygame.transform.scale2x(pygame.image.load(os.path.join('imgs', 'bird1.png'))),
